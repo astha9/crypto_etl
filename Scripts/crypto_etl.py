@@ -1,4 +1,4 @@
-import requests 
+import requests
 import pandas as pd
 import sqlite3
 
@@ -6,7 +6,7 @@ try:
     response=requests.get("https://api.coingecko.com/api/v3/coins/list",timeout=10)
     data=response.json()
     data_coin_list=[]
-    #Get coins list 
+    #Get coins list
     for coin in data:
         if coin["id"] in ["bitcoin" ,"ethereum", "dogecoin"]:
             data_coin_list.append(coin["id"])
@@ -26,13 +26,10 @@ try:
     final_df.to_csv(f"./output_files/crypto_coin.csv",index=False)
     print("File written to /output_files")
 
-    #Connection to sqllite 
+    #Connection to sqllite
     conn=sqlite3.connect("crypto_prices.db")
     #Save to SQLite db
     final_df.to_sql("crypto_prices_table",conn,if_exists='replace',index=False)
     conn.close()
 except Exception as e:
-    print("Error :",str(e))   
-
-
-        
+    print("Error :",str(e))
